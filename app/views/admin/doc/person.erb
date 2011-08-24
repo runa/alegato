@@ -63,17 +63,43 @@
 
   <!-- Formulario para agregar milestones -->
   <div id="add_milestone">
-      <form method="post" target='res' action="<%=url_for(:doc_admin_person, :id => @person.id, :doc_id => @doc.id)%>">
-
+    <form method="post" target='res' action="<%=url_for(:doc_admin_person, :id => @person.id, :doc_id => @doc.id)%>">
       <input type='hidden' name='person[milestones][0][id]' id='milestone_id' value='' />
+      <input type='hidden' name='person[id]' id='person_id' value="<%= @person.id %>" />
 
-      <div class="field-label">Date From</div><div class="field-input"><input type='text' name='person[milestones][0][date_from]' id='milestone_date_from' /></div>
-      <div class="field-label">Date To</div><div class="field-input"><input type='text' name='person[milestones][0][date_to]' id='milestone_date_to' /></div>
-      <div class="field-label">What</div><div class="field-input"><%=select_tag "person[milestones][0][what_opc]",:options => @what, :id => "milestone_what_opc"%><input type='text' name='person[milestones][0][what_txt]' id='milestone_what_txt' /></div>
-      <div class="field-label">Where</div><div class="field-input"><%=select_tag "person[milestones][0][where_opc]",:options => @where, :id=> "milestone_where_opc"%><input type='text' name='person[milestones][0][where_txt]' id="milestone_where_txt" /></div>
-      <div class="field-label">Source</div><div class="field-input"><input type='text'name='person[milestones][0][source]' id="milestone_source" /></div>
+      <div class="field-label">Date From</div>
+      <div class="field-input">
+        <input type='text' name='person[milestones][0][date_from]' id='milestone_date_from' class='datepicker' />
+      </div>
+
+      <div class="field-label">Date To</div>
+      <div class="field-input">
+        <input type='text' name='person[milestones][0][date_to]' id='milestone_date_to' class='datepicker' />
+      </div>
+
+      <div class="field-label">What</div>
+      <div class="field-input">
+        <%=select_tag "person[milestones][0][what_opc]",:options => @what, :id => "milestone_what_opc"%>
+        <input type='text' name='person[milestones][0][what_txt]' id='milestone_what_txt' />
+      </div>
+
+      <div class="field-label">Where</div>
+      <div class="field-input">
+        <%=select_tag "person[milestones][0][where_opc]",:options => @where, :id=> "milestone_where_opc"%>
+        <input type='text' name='person[milestones][0][where_txt]' id="milestone_where_txt" />
+      </div>
+
+      <div class="field-label">Other persons</div>
+      <div class="field-input">
+        <input type='text' name='person[milestones][0][other_people_txt]' id="person_token" class='autocomplete_people' />
+      </div>
+
+      <div class="field-label">Source</div>
+      <div class="field-input">
+        <input type='text'name='person[milestones][0][source]' id="milestone_source" />
+      </div>
+
       <br /><br />
-
       <input type='submit' value='Guardar' />
       <button id='del_milestone'>Delete</button>
     </form>
