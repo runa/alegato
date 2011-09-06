@@ -5,11 +5,14 @@ Alegato.controllers :doc_admin,  :parent => :doc do
     @most_mentioned = @doc.person_dataset.order_by(:mentions).reverse.limit(10)
     render "admin/doc/index"
   end
+  get :find_person do
+    Person.autocomplete_json(params[:q])
+  end
   post :reparse do
     @doc = Document[params[:doc_id]]
     @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre| 
-      @person_names[Person.normalize_name(nombre)] << nombre 
+    @doc.extract.person_names.each{|nombre|
+      @person_names[Person.normalize_name(nombre)] << nombre
     }
     params[:people].each{|n|
       person_name = Person.normalize_name(n)
@@ -21,8 +24,8 @@ Alegato.controllers :doc_admin,  :parent => :doc do
   get :reparse do
     @doc = Document[params[:doc_id]]
     @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre| 
-      @person_names[Person.normalize_name(nombre)] << nombre 
+    @doc.extract.person_names.each{|nombre|
+      @person_names[Person.normalize_name(nombre)] << nombre
     }
     render "admin/doc/reparse"
   end
@@ -38,10 +41,10 @@ Alegato.controllers :doc_admin,  :parent => :doc do
       @person = Person[params[:id]]
     end
     @what = Milestone.what_list
-    @where = Milestone.where_list 
+    @where = Milestone.where_list
     @doc = Document[params[:doc_id]]
     person_name = ActiveSupport::Inflector.transliterate(@person.name).downcase
-    @fragments = @doc.extract.person_names.find_all{|name| 
+    @fragments = @doc.extract.person_names.find_all{|name|
       name = ActiveSupport::Inflector.transliterate(name.to_s.downcase)
       name == person_name
     }
@@ -69,7 +72,7 @@ Alegato.controllers :doc_admin,  :parent => :doc do
         data.delete("id")
         m=Milestone.new(data)
       end
-      person.add_milestone(m) 
+      person.add_milestone(m)
     }
     person.save_changes
     person.to_json
